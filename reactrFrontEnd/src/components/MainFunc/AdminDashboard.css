@@ -1,0 +1,32 @@
+.pgClassic {
+    height: 100vh;
+    width: 100%;
+    background-image: url(../../../media/backmain.svg);
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+
+.but1 {
+    padding: 20px;
+    color: black;
+    border: 2px solid black;
+    background-color: rgb(190, 236, 63);
+    border-radius: 30px;
+    /* rgb(190, 236, 63) */
+}
+
+.but1:hover {
+    cursor: pointer;
+    background-color: rgb(169, 228, 9);
+    transition: all 0.5s ease-out;
+}
+
+body {
+    background-image: url(../../../media/backmain.svg);
+    background-size: cover;
+    background-attachment: fixed;
+}
