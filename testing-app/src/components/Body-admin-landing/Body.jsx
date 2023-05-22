@@ -55,7 +55,7 @@ const body = () => {
                 sx={{
                     backgroundColor: '#eeeee',
                     minWidth: '100%',
-                    padding: '2vh', display: 'flex', flexDirection: 'column'
+                    padding: '2vh', display: 'flex', flexDirection: 'column',
 
                 }}
             >
