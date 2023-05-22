@@ -7,10 +7,16 @@ const Cards = (props) => {
         <>
             <Card sx={{
                 height: '30vh', width: '20vw', marginLeft: '10px',
-                backgroundColor: 'error.main', display: 'flex', flexDirection: 'column',
+                backgroundColor: 'white', display: 'flex', flexDirection: 'column',
                 alignItems: 'center', justifyContent: 'center',
-                backgroundImage: `url(${props.background})`, backgroundSize: 'cover'
-            }}>
+                backgroundImage: `url(${props.background})`, backgroundSize: 'cover',
+                ':hover': {
+                    boxShadow: 10,
+                    border: 1,
+                    borderColor: 'primary.dark',
+                    cursor: 'pointer'
+                }
+            }}  >
 
                 <CardMedia
                     // component='img'
@@ -20,7 +26,7 @@ const Cards = (props) => {
                         alignItems: 'center', justifyContent: 'center', height: '25vh', width: '25vh'
                     }}
                 />
-            </Card>
+            </Card >
         </>
     )
 }
