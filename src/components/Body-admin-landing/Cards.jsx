@@ -3,6 +3,11 @@ import AddIcon from '@mui/icons-material/Add';
 import { Card, CardContent, CardMedia, Typography } from '@mui/material'
 
 const Cards = (props) => {
+
+    // const navigate = useNavigate();
+
+
+
     return (
         <>
             <Card sx={{
@@ -16,7 +21,7 @@ const Cards = (props) => {
                     borderColor: 'primary.dark',
                     cursor: 'pointer'
                 }
-            }}  >
+            }} onClick={event => window.location.href = `${props.oncl}`}>
 
                 <CardMedia
                     // component='img'

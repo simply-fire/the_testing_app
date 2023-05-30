@@ -33,16 +33,16 @@ const body = () => {
                 }}>
                     <Stack spacing={15} direction='row'>
                         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column' }}>
-                            <Card name="Custom Quiz" media='add.png' background='add-background.jpg' />
+                            <Card name="Custom Quiz" media='add.png' background='add-background.jpg' oncl="/CreateCustomQuiz" />
                             <Typography fontWeight='600' marginTop='1vh' color='primary.dark'>Custom-Quiz</Typography>
                         </Box>
                         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column' }}>
-                            <Card name="Subjective Quiz" media='add-rest.png' background='add-subjective-quiz.jpg' />
+                            <Card name="Subjective Quiz" media='add-rest.png' background='add-subjective-quiz.jpg' oncl="/CreateSubjectiveQuiz" />
                             <Typography fontWeight='600' marginTop='1vh' color='primary.dark'>Subjective-Quiz</Typography>
 
                         </Box>
                         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column' }}>
-                            <Card name="Objective Quiz" media='add-rest.png' background='add-objective-quiz.jpg' />
+                            <Card name="Objective Quiz" media='add-rest.png' background='add-objective-quiz.jpg' oncl="/CreateObjectiveQuiz" />
                             <Typography fontWeight='600' marginTop='1vh' color='primary.dark'>Objective-Quiz</Typography>
 
                         </Box>
