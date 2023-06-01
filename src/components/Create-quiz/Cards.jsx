@@ -17,14 +17,14 @@ const Cards = (props) => {
     const changeLowerCard = (tip) => {
 
         console.log(tip);
-        if (tip === 'Subjective-quiz')
+        if (tip === 'Subjective-question')
             return <TextBoxLowerA />
-        else if (tip === 'Objective-quiz')
+        else if (tip === 'Objective-question')
             return <TextBoxLowerB />
 
     }
 
-    const { render, quizType } = TextBoxUpper()
+    const { render, questionType } = TextBoxUpper()
 
     return (
 
@@ -40,7 +40,7 @@ const Cards = (props) => {
         }} >
 
             {render}
-            {changeLowerCard(quizType)}
+            {changeLowerCard(questionType)}
 
             <Box sx={{ alignSelf: 'bottom' }}>
                 <Tooltip title='delete question card'>

@@ -1,6 +1,6 @@
 import React from 'react'
 import Nav from './Navbar'
-import { Box, IconButton, Tooltip } from '@mui/material'
+import { Box, IconButton, TextField, Tooltip, Typography } from '@mui/material'
 import Cards from './Cards'
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { useState } from 'react';
@@ -45,7 +45,7 @@ const custom = () => {
                     height: '20vh', width: '75vw', marginLeft: '10px',
                     display: 'flex', flexDirection: 'column',
                     alignItems: 'center', justifyContent: 'center', margin: '1vh',
-                    backgroundColor: `#e3f2fd`, backgroundSize: 'cover',
+                    background: `#e3f2fd`, backgroundSize: 'cover',
                     ':hover': {
                         boxShadow: 10,
                         cursor: 'pointer'
@@ -53,10 +53,11 @@ const custom = () => {
                     borderLeft: 8,
                     borderColor: 'primary.dark',
                     boxSizing: 'border-box',
-                    borderRadius: 2
-                    // borderWidth: '4px;',
+                    borderRadius: 2,
+                    padding: '2vh'
                 }} >
-
+                    {/* <Box fullWidth sx={{ background: 'url(create-exam-top-graphic.jpg)', backgroundSize: 'cover', width: '100%', height: '40%' }}></Box> */}
+                    <TextField label='Title' variant='standard' fullWidth sx={{ marginTop: '1vh', color: 'white' }} />
                 </Box>
 
                 {cardElement.map((i) => (

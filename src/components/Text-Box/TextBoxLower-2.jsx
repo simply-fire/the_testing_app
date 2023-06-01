@@ -1,5 +1,5 @@
 import { Padding } from '@mui/icons-material'
-import { Box, FormControl, FormControlLabel, RadioGroup, Typography, Radio } from '@mui/material'
+import { Box, FormControl, FormControlLabel, RadioGroup, Typography, Radio, TextField } from '@mui/material'
 import React from 'react'
 
 const TextBoxLower = () => {
@@ -18,12 +18,30 @@ const TextBoxLower = () => {
 
             >
                 <Typography fontWeight={600} fontSize='1rem' sx={{ color: 'grey' }}>Choose the correct answer</Typography>                <br />                <hr />
-                <FormControl >
+                <FormControl sx={{ marginTop: '1vh' }}>
                     <RadioGroup row >
-                        <FormControlLabel sx={{ marginRight: '5vw', marginLeft: '0' }} control={<Radio />} label='Option-1' value='1'></FormControlLabel>
-                        <FormControlLabel sx={{ marginRight: '5vw', marginLeft: '2vh' }} control={<Radio />} label='Option-2' value='2'></FormControlLabel>
-                        <FormControlLabel sx={{ marginRight: '5vw', marginLeft: '2vh' }} control={<Radio />} label='Option-3' value='3'></FormControlLabel>
-                        <FormControlLabel sx={{ marginRight: '5vw', marginLeft: '2vh' }} control={<Radio />} label='Option-4' value='4'></FormControlLabel>
+                        <FormControlLabel
+                            control={<Radio />}
+                            label={<TextField
+                                id='opt-1'
+                                variant='filled'
+                            />}
+                            value='1'></FormControlLabel>
+
+                        <FormControlLabel control={<Radio />} label={<TextField
+                            id='opt-2'
+                            variant='filled'
+                        />} value='2'></FormControlLabel>
+
+                        <FormControlLabel control={<Radio />} label={<TextField
+                            id='opt-3'
+                            variant='filled'
+                        />} value='3'></FormControlLabel>
+
+                        <FormControlLabel control={<Radio />} label={<TextField
+                            id='opt-4'
+                            variant='filled'
+                        />} value='4'></FormControlLabel>
                     </RadioGroup>
                 </FormControl>
             </Box>
