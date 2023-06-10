@@ -27,7 +27,7 @@ exports.createExam = async (req, res, next) => {
         // console.log(req.headers);
         for (i in req.body) {
             // console.log(i);
-            if (req.body[i].Status !== "empty" && req.body[i].Type === "Sub") {
+            if (req.body[i].Status !== "empty" && req.body[i].Type === "Subjective-question") {
                 // console.log(req.body);
                 const subQuest = new quest({
                     testId: testid,
@@ -44,7 +44,7 @@ exports.createExam = async (req, res, next) => {
                 // res.send(count)
                 count++;
             }
-            else if (req.body[i].Status !== "empty" && req.body[i].Type === "Obj") {
+            else if (req.body[i].Status !== "empty" && req.body[i].Type === "Objective-question") {
                 // console.log(req.body);
 
                 const objQuest = new quest({
@@ -80,10 +80,12 @@ exports.createExam = async (req, res, next) => {
 }
 
 const scheduleExam = async (dtt, testid) => {
+    console.log('called this');
     schedule.scheduleJob(dtt, async () => {
 
         console.log(dtt, testid)
         const quesObject = await quest.find({ testId: `${testid}` });
+        console.log(quesObject);
 
         io.on('connection', (socket) => {
             console.log(`User Connected: ${socket.id}`);
