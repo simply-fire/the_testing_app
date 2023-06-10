@@ -5,13 +5,13 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import CreateCustomQuiz from './components/Create-quiz/custom'
 import io from "socket.io-client";
 
-const socket = io.connect("http://localhost:3000");
+// const socket = io.connect("http://localhost:3000");
 
 function App() {
 
-  socket.on("rm", (message) => {
-    console.log(message);
-  })
+  // socket.on("rm", (message) => {
+  //   console.log(message);
+  // })
 
   return (
     <BrowserRouter>

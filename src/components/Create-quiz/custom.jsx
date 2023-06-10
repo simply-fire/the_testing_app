@@ -1,17 +1,48 @@
 import React from 'react'
 import Nav from './Navbar'
-import { Box, IconButton, TextField, Tooltip, Typography } from '@mui/material'
+import { Box, Card, IconButton, TextField, Tooltip, Typography } from '@mui/material'
 import Cards from './Cards'
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { useState } from 'react';
-
+import TextBoxUpper from '../Text-Box/TextBoxUppeer'
 const custom = () => {
 
+    // const { question, render, questionType, props } = Cards()
+    const [cardValues, setCardValues] = useState({})
+
+    // let newValue = {:''}
+    // const pie = {};
+
+    const getCardData = (key, Type, Question, o1, o2, o3, o4) => {
+        if (Type === 'Subjective-question')
+            setCardValues({ ...cardValues, [`Card${key}`]: { Type: Type, Question: Question, Status: 'full', Option1: 0, Option2: 0, Option3: 0, Option4: 0, id: key } })
+        else if (Type === 'Objective-question')
+            setCardValues({ ...cardValues, [`Card${key}`]: { Type: Type, Question: Question, Status: 'full', Option1: o1, Option2: o2, Option3: o3, Option4: o4, id: key } })
+        // console.log(o1, o2, o3, o4);
+    }
+    console.log(cardValues);
+
     const [cardCount, setCardCount] = useState(2);
+
     const [cardElement, setCardElement] = useState([{
         id: 1,
-        ele: <Cards background='#e3f2fd' tip={1} />
+        ele: <Cards delfunc={
+            (key) => {
+                setCardElement(current => current.filter((cardElement => {
+
+                    return cardElement.id !== key;
+                })))
+                setCardValues(current => {
+
+                    const copy = { ...current };
+                    delete copy[`Card${key}`];
+                    return copy;
+
+                })
+            }
+        } background='#e3f2fd' tip={1} key='1' getf={getCardData} />
     }]);
+
     const insertCard = () => {
 
         setCardCount(cardCount => cardCount + 1);
@@ -20,7 +51,7 @@ const custom = () => {
         setCardElement(cardElement =>
             [...cardElement, {
                 id: cardCount,
-                ele: <Cards delfunc={deleteCard} background='#e3f2fd' tip={cardCount} />
+                ele: <Cards delfunc={deleteCard} background='#e3f2fd' tip={cardCount} key={cardCount} getf={getCardData} />
             }]
         )
 
@@ -31,14 +62,18 @@ const custom = () => {
 
             return cardElement.id !== key;
         })))
+        setCardValues(current => {
+
+            const copy = { ...current };
+            delete copy[`Card${key}`];
+            return copy;
+
+        })
     }
-
-
-
 
     return (
         <>
-            <Nav />
+            <Nav object={cardValues} />
 
             <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', padding: '2vh' }}>
                 <Box sx={{

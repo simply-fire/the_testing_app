@@ -13,20 +13,31 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import ScheduleSendIcon from '@mui/icons-material/ScheduleSend';
+import axios from 'axios'
+import { DateRangeOutlined } from '@mui/icons-material';
 // import { Tooltip } from '@mui/material';
 
 const pages = [];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
-function ResponsiveAppBar() {
+function ResponsiveAppBar(props) {
     const [anchorElNav, setAnchorElNav] = React.useState(null);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
 
     const handleOpenNavMenu = (event) => {
         setAnchorElNav(event.currentTarget);
     };
-    const handleOpenUserMenu = (event) => {
-        setAnchorElUser(event.currentTarget);
+    const handleScheduleTest = () => {
+        const date = new Date()
+        console.log('By Nav', props.object)
+        axios.post('http://localhost:3000/adminDashboard/createExam', props.object, {
+            headers: {
+                testid: '60002',
+                Scheduledatetime: '2023-06-10T07:32:00+05:30'
+            }
+        })
+            .then((res) => { console.log(res) })
+            .catch((err) => { console.log(err) })
     };
 
     const handleCloseNavMenu = () => {
@@ -129,7 +140,7 @@ function ResponsiveAppBar() {
 
                     <Box sx={{ flexGrow: 0 }}>
                         {/* <Tooltip title="Open settings"> */}
-                        <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                        <IconButton onClick={handleScheduleTest} sx={{ p: 0 }}>
                             {/* <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" /> */}
                             <Tooltip title='Click to Schedule the test'><Button ><ScheduleSendIcon fontSize='large' sx={{ color: 'white' }} /></Button></Tooltip >
                         </IconButton>

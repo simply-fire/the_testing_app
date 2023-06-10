@@ -13,18 +13,19 @@ import { IconButton } from '@mui/material';
 const Cards = (props) => {
 
     // const navigate = useNavigate();
-    const [lowerCard, setLowerCard] = useState({})
+    // const [lowerCard, setLowerCard] = useState({})
     const changeLowerCard = (tip) => {
 
         console.log(tip);
         if (tip === 'Subjective-question')
             return <TextBoxLowerA />
         else if (tip === 'Objective-question')
-            return <TextBoxLowerB />
+            return render1
 
     }
 
-    const { render, questionType } = TextBoxUpper()
+    const { render, questionType, question } = TextBoxUpper()
+    const { value, o1, o2, o3, o4, render1 } = TextBoxLowerB()
 
     return (
 
@@ -37,11 +38,15 @@ const Cards = (props) => {
                 boxShadow: 10,
                 cursor: 'pointer'
             }
-        }} >
+        }}
+
+        >
 
             {render}
             {changeLowerCard(questionType)}
 
+            {props.getf(props.tip, questionType, question, o1, o2, o3, o4)}
+            {/* {o1 = 0} {o2 = 0}{o3 = 0} {o4 = 0} */}
             <Box sx={{ alignSelf: 'bottom' }}>
                 <Tooltip title='delete question card'>
                     <IconButton onClick={() => props.delfunc(props.tip)}> <DeleteIcon sx={{ margin: '1vh', }} /> </IconButton>
@@ -51,5 +56,6 @@ const Cards = (props) => {
 
     )
 }
+
 
 export default Cards
