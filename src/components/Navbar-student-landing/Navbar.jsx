@@ -12,13 +12,15 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
+import { ButtonGroup, ToggleButton, ToggleButtonGroup } from '@mui/material';
 
 const pages = ['Upcoming', 'missed', 'attempted'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
-function ResponsiveAppBar() {
+function ResponsiveAppBar(props) {
     const [anchorElNav, setAnchorElNav] = React.useState(null);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
+    // const [display, setDisplay] = React.useState(<Upcoming />);
 
     const handleOpenNavMenu = (event) => {
         setAnchorElNav(event.currentTarget);
@@ -27,19 +29,32 @@ function ResponsiveAppBar() {
         setAnchorElUser(event.currentTarget);
     };
 
-    const handleCloseNavMenu = () => {
-        setAnchorElNav(null);
+    const handleCloseNavMenu = (page) => {
+
+        // console.log(page);
+        if (page === 'Upcoming')
+            props.getPageDetails(page);
+        else if (page === 'missed')
+            props.getPageDetails(page);
+        else if (page === 'attempted')
+            props.getPageDetails(page);
+
     };
 
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
     };
 
+
     return (
         <AppBar position="static">
             <Container maxWidth="xl" >
                 <Toolbar disableGutters >
+
+                    {/* Logo Icon */}
                     <AdbIcon sx={{/*{ xs: 'none', md: 'flex' }*/ mr: 1 }} />
+
+                    {/* Logo */}
                     <Typography
                         variant="h6"
                         noWrap
@@ -58,7 +73,7 @@ function ResponsiveAppBar() {
                         LOGO
                     </Typography>
 
-                    {/* <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+                    <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
                         <IconButton
                             size="large"
                             aria-label="account of current user"
@@ -93,11 +108,11 @@ function ResponsiveAppBar() {
                                 </MenuItem>
                             ))}
                         </Menu>
-                    </Box> */}
+                    </Box>
 
 
-                    {/* <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} /> */}
-                    {/* <Typography
+                    <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
+                    <Typography
                         variant="h5"
                         noWrap
                         component="a"
@@ -114,21 +129,27 @@ function ResponsiveAppBar() {
                         }}
                     >
                         LOGO
-                    </Typography> */}
+                    </Typography>
 
 
-                    <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, marginLeft: '30vw' }}>
-                        {pages.map((pages) => (
-                            <Button
-                                key={pages}
-                                onClick={handleCloseNavMenu}
-                                sx={{ my: 2, color: 'white', display: 'block' }}
-                            >
-                                {pages}
-                            </Button>
-                        ))}
+                    <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, justifyContent: 'center', alignItems: 'center' }}>
+                        <ButtonGroup
+                            variant='filled'>
+                            {pages.map((page) => (
+                                <Button
+                                    key={page}
+                                    onClick={() => handleCloseNavMenu(page)}
+                                    sx={{ my: 2, color: 'white', display: 'block' }}
+                                >
+                                    {page}
+                                </Button>
+                            ))}
+                        </ButtonGroup>
+
                     </Box>
 
+
+                    {/*                  Avatar and profile icon                   */}
                     <Box sx={{ flexGrow: 0 }}>
                         <Tooltip title="Open settings">
                             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>

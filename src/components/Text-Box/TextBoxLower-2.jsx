@@ -49,7 +49,7 @@ const TextBoxLower = (props) => {
                     }}
 
                 >
-                    <Typography fontWeight={600} fontSize='1rem' sx={{ color: 'grey' }}>Choose the correct answer</Typography>                <br />                <hr />
+                    <Typography fontWeight={600} fontSize='1rem' sx={{ color: 'grey' }}>Choose the correct answer</Typography>                 <hr />
                     <FormControl sx={{ marginTop: '1vh' }}>
                         <RadioGroup row
                             value={value}
