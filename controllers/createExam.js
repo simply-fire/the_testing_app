@@ -21,6 +21,7 @@ exports.createExam = async (req, res, next) => {
         // console.log(req.headers);
         var testid = req.headers.testid;
         var datetime = req.headers.scheduledatetime
+        var title = req.headers.title
         // console.log(testid, datetime);
         var count = 1;
         // var i;
@@ -72,26 +73,28 @@ exports.createExam = async (req, res, next) => {
 
         res.send("Questions Loded to Database successfully").status(200);
 
-        scheduleExam(datetime, testid);
+        scheduleExam(datetime, testid, title);
 
     } catch (error) {
         throw (error)
     }
 }
 
-const scheduleExam = async (dtt, testid) => {
+const scheduleExam = async (dtt, testid, title) => {
     console.log('called this');
-    schedule.scheduleJob(dtt, async () => {
+    // schedule.scheduleJob(dtt, async () => {
 
-        console.log(dtt, testid)
-        const quesObject = await quest.find({ testId: `${testid}` });
-        console.log(quesObject);
+    console.log(dtt, testid)
+    const quesObject = await quest.find({ testId: `${testid}` });
+    quesObject.push({ title: title });
+    console.log(quesObject);
 
-        io.on('connection', (socket) => {
-            console.log(`User Connected: ${socket.id}`);
+    io.on('connection', (socket) => {
+        console.log(`User Connected: ${socket.id}`);
 
-            socket.emit("rm", quesObject)
-        });
+        socket.emit("rm", quesObject)
+        console.log();
+    });
 
-    })
+    // })
 }
