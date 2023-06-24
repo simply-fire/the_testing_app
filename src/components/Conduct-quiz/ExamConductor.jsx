@@ -52,7 +52,7 @@ const ExamCounductor = () => {
                 }} >
                     {/* <Box fullWidth sx={{ background: 'url(create-exam-top-graphic.jpg)', backgroundSize: 'cover', width: '100%', height: '40%' }}></Box> */}
                     {/* <TextField label='Title' variant='standard' fullWidth sx={{ marginTop: '1vh', color: 'white' }} /> */}
-                    <Typography variant='h3' sx={{ color: 'primary.dark', fontFamily: 'sans-serif' }}>Quiz Title</Typography>
+                    <Typography variant='h3' sx={{ color: 'primary.dark', fontFamily: 'sans-serif' }}>{quizData[quizData.length - 1].title}</Typography>
                 </Box>
 
                 {useEffect(() => populateCards, [])}
