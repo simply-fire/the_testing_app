@@ -4,6 +4,7 @@ const cors = require('cors');
 const connectDB = require('./config/db');
 const http = require('http')
 const { Server } = require('socket.io');
+const cookieParser = require('cookie-parser')
 
 
 //load ev varibales
@@ -17,6 +18,9 @@ const app = express();
 
 // Body parser
 app.use(express.json());
+app.use(cookieParser());
+
+
 
 // Enable cors
 app.use(cors());
@@ -31,6 +35,7 @@ const PORT = process.env.PORT;
 
 app.use('/adminDashboard', require('./Routes/routesAdmin'));
 // app.use('/stuDashboard', require('./Routes/routesStudent'));
+app.use('/authenticate', require('./Routes/loginSignup'));
 
 
 server.listen(PORT, () => {
