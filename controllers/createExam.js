@@ -22,6 +22,7 @@ exports.createExam = async (req, res, next) => {
         var testid = req.headers.testid;
         var datetime = req.headers.scheduledatetime
         var title = req.headers.title
+        var offset = req.headers.offset
         // console.log(testid, datetime);
         var count = 1;
         // var i;
