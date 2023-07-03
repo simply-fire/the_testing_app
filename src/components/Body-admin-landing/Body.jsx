@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Nav from "../Navbar-admin-landing/Navbar";
 import {
     Paper, Box, Stack, Typography, Accordion,
@@ -8,10 +8,15 @@ import {
 import Card from './Cards'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { useState } from 'react'
+import axios from 'axios';
 
 
 
 const body = () => {
+
+    // useEffect(() => {
+    //     axios.get('http://localhost:3000/adminDashboard');
+    // }, [])
 
     return (
         <>

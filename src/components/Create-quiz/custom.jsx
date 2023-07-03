@@ -1,11 +1,18 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Nav from './Navbar'
 import { Box, Card, IconButton, TextField, Tooltip, Typography } from '@mui/material'
 import Cards from './Cards'
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { useState } from 'react';
 import TextBoxUpper from '../Text-Box/TextBoxUppeer'
+import axios from 'axios';
 const custom = () => {
+
+
+    // useEffect(() => {
+    //     axios.get('http://localhost:3000/adminDashboard');
+    // }, [])
+
 
     // const { question, render, questionType, props } = Cards()
     const [cardValues, setCardValues] = useState({})

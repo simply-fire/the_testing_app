@@ -1,15 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import AddIcon from '@mui/icons-material/Add';
-import { Card, CardContent, CardMedia, Tooltip, Typography } from '@mui/material'
 import { Box } from '@mui/material';
-import TextBoxUpper from '../Text-Box/TextBoxUppeer';
-import TextBoxLowerA from '../Text-Box/TextBoxLower-1';
-import TextBoxLowerB from '../Text-Box/TextBoxLower-2';
-import DeleteIcon from '@mui/icons-material/Delete';
-import { IconButton } from '@mui/material';
 import CardQuestionDisplay from './CardQuestionDisplay';
 import CardAnswerDisplay from './CardAnswerDisplay';
-// import 
 
 
 const Cards = (props) => {

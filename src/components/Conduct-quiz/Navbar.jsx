@@ -12,7 +12,7 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
-import ScheduleSendIcon from '@mui/icons-material/ScheduleSend';
+import SendTwoToneIcon from '@mui/icons-material/SendTwoTone';
 import axios from 'axios'
 import { DateRangeOutlined } from '@mui/icons-material';
 // import { Tooltip } from '@mui/material';
@@ -62,14 +62,14 @@ function ResponsiveAppBar(props) {
                         sx={{
                             mr: 2,
                             display: { xs: 'none', md: 'flex' },
-                            fontFamily: 'monospace',
+                            // fontFamily: 'monospace',
                             fontWeight: 700,
                             letterSpacing: '.3rem',
                             color: 'inherit',
                             textDecoration: 'none',
                         }}
                     >
-                        LOGO
+                        The Testing APP
                     </Typography>
 
                     <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -143,7 +143,7 @@ function ResponsiveAppBar(props) {
                         {/* <Tooltip title="Open settings"> */}
                         <IconButton onClick={handleScheduleTest} sx={{ p: 0 }}>
                             {/* <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" /> */}
-                            <Tooltip title='Click to Schedule the test'><Button ><ScheduleSendIcon fontSize='large' sx={{ color: 'white' }} /></Button></Tooltip >
+                            <Tooltip title='Click to Submit the quiz'><Button ><SendTwoToneIcon fontSize='large' sx={{ color: 'white' }} /></Button></Tooltip >
                         </IconButton>
                         {/* </Tooltip> */}
                         <Menu

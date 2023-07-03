@@ -7,6 +7,9 @@ import ExamConductor from './components/Conduct-quiz/ExamConductor'
 import Login from './components/Login-Signup/Login'
 import Signup from './components/Login-Signup/Signup'
 import OTP from './components/Login-Signup/OTP'
+import TDrawer from './components/Navbar-admin-landing/Drawer'
+import Myprofile from './components/Navbar-admin-landing/My-profile'
+import MyClassroom from './components/Navbar-admin-landing/My-Classroom'
 
 // const socket = io.connect("http://localhost:3000");
 
@@ -19,6 +22,8 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
+
+        <Route path='/demo' element={<TDrawer />} />
         <Route path='/' element={<Login />} />
         <Route path='/AdminDashboard' element={<AdminDash />} />
         <Route path='/StuDashboard' element={<StudentDash />} />
@@ -27,6 +32,8 @@ function App() {
         <Route path='/Login' element={<Login />} />
         <Route path='/Signup' element={<Signup />} />
         <Route path='/OTP' element={<OTP />} />
+        <Route path='/AdminDashboard/Myprofile' element={< Myprofile />} />
+        <Route path='/AdminDashboard/Myclassroom' element={< MyClassroom />} />
 
       </Routes>
     </BrowserRouter>

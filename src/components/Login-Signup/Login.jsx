@@ -2,18 +2,19 @@ import { useState } from 'react'
 import React from 'react'
 import axios from 'axios'
 import { Box, Button, Link, Paper, TextField, Typography, Radio, RadioGroup, FormControlLabel } from '@mui/material'
-
+import { useLogin } from '../../hooks/useLogin'
 
 const Login = () => {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [identity, setIdentity] = useState('')
+    const { login, error, isLoading } = useLogin()
 
     // const [cred, setCred] = useState({});
     var cred;
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
 
         cred = {
 
@@ -23,10 +24,8 @@ const Login = () => {
 
         }
 
-        console.log(cred);
-        axios.post('http://localhost:3000/authenticate/login', cred)
-            .then((res) => { window.location.href = "/stuDashboard" })
-            .catch((err) => { console.log(err) });
+        await login(cred);
+
     }
 
 
