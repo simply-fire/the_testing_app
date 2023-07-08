@@ -5,8 +5,24 @@ import FormatBoldIcon from '@mui/icons-material/FormatBold';
 import FormatItalicIcon from '@mui/icons-material/FormatItalic';
 import FormatUnderlinedIcon from '@mui/icons-material/FormatUnderlined';
 
+
+
+
 const CardAnswerDisplay = (props) => {
+
+
+
     const [card, setCard] = useState();
+    const [marked, setMarked] = useState();
+    const handleChange = (e) => {
+        setMarked(e.target.value)
+        // console.log("Log from ansdisplay ", e.target.value);
+        // props.fetchAns({ ans: e.target.value, type: props.QT })
+    }
+
+    useEffect(() => {
+        props.fetchAns(marked);
+    }, [marked])
 
     const populateCard = () => {
         if (props.QT === 'OQ') {
@@ -26,8 +42,8 @@ const CardAnswerDisplay = (props) => {
                 <FormControl sx={{ marginTop: '1vh' }}>
                     <RadioGroup row
                         sx={{ display: 'flex', flexDirection: 'column' }}
-                    // value={value}
-                    // onChange={handleChange}
+                        value={marked}
+                        onChange={handleChange}
                     >
                         <FormControlLabel control={<Radio />} label={<Typography>{props.option1}</Typography>} value='1' />
                         <FormControlLabel control={<Radio />} label={<Typography>{props.option2}</Typography>} value='2' />
@@ -59,7 +75,8 @@ const CardAnswerDisplay = (props) => {
                     <IconButton><FormatItalicIcon sx={{ color: 'primary.dark' }} fontSize='medium' /></IconButton>
                     <IconButton><FormatUnderlinedIcon sx={{ color: 'primary.dark' }} fontSize='medium' /></IconButton>
                 </ButtonGroup>
-                <TextField fullWidth />
+                <TextField onChange={handleChange}
+                    fullWidth />
 
             </Box>)
         }

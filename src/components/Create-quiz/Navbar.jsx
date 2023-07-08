@@ -15,6 +15,8 @@ import AdbIcon from '@mui/icons-material/Adb';
 import ScheduleSendIcon from '@mui/icons-material/ScheduleSend';
 import axios from 'axios'
 import { useState } from 'react';
+// import { useCreateQuiz } from '../../hooks/useCreateQuiz';
+import { useCreateQuizContext } from '../../context/CreateQuizContext';
 
 // import { Tooltip } from '@mui/material';
 
@@ -32,17 +34,22 @@ function ResponsiveAppBar(props) {
     const handleOpenNavMenu = (event) => {
         setAnchorElNav(event.currentTarget);
     };
+    const { state } = useCreateQuizContext();
+
     const handleScheduleTest = () => {
 
+        // console.log(state);
+        const id = localStorage.getItem('email');
         const token = localStorage.getItem('jwt');
         const date = new Date()
         console.log('By Nav', props.object)
-        axios.post('http://localhost:3000/adminDashboard/createExam', props.object, {
+        axios.post('http://localhost:3000/adminDashboard/createExam', state, {
             headers: {
-                testid: '14485',
-                Scheduledatetime: '2023-06-13T10:56:00+05:30',
-                title: "First Quiz",
-                authorization: token
+                testid: `${id}${props.start}`,
+                Scheduledatetime: props.start,
+                title: props.title,
+                authorization: token,
+                end: props.end
             }
         })
             .then((res) => { console.log(res) })

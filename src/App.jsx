@@ -10,7 +10,7 @@ import OTP from './components/Login-Signup/OTP'
 import TDrawer from './components/Navbar-admin-landing/Drawer'
 import Myprofile from './components/Navbar-admin-landing/My-profile'
 import MyClassroom from './components/Navbar-admin-landing/My-Classroom'
-
+import { CreateQuizContextProvider } from './context/CreateQuizContext'
 // const socket = io.connect("http://localhost:3000");
 
 function App() {

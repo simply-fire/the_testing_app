@@ -12,19 +12,16 @@ const Upcoming = () => {
     const [data, setData] = useState([]);
     const [title, setTitle] = useState('Quiz_Not_Available')
     const [body, SetBody] = useState([]);
-
+    // const [s]
 
 
     useEffect(() => {
         socket.on("rm", (message) => {
-            // console.log(data);
-            setData(message)
-            setTitle(message[message.length - 1].title)
-            // data.splice(3,)
-            // let tip = data.splice(3, 1)
-            // console.log("this is", tip);
-            // SetBody(tip);
-            // SetBody(main)
+            console.log(message);
+            setData(message.quesObject)
+            setTitle(message.quesObject[message.quesObject.length - 1].title)
+            console.log(message.end);
+            localStorage.setItem('end', message.end);
         })
     }, [socket])
 

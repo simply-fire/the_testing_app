@@ -1,24 +1,22 @@
 import React, { useEffect } from 'react'
 import Nav from './Navbar'
-import { Box, Card, IconButton, TextField, Tooltip, Typography } from '@mui/material'
+import { Box, Card, FormControl, Grid, IconButton, InputLabel, MenuItem, Select, TextField, Tooltip, Typography } from '@mui/material'
 import Cards from './Cards'
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { useState } from 'react';
 import TextBoxUpper from '../Text-Box/TextBoxUppeer'
 import axios from 'axios';
+import { useCreateQuiz } from '../../hooks/useCreateQuiz';
+
 const custom = () => {
 
+    const { deleteQuestionDetails } = useCreateQuiz()
 
-    // useEffect(() => {
-    //     axios.get('http://localhost:3000/adminDashboard');
-    // }, [])
-
-
-    // const { question, render, questionType, props } = Cards()
     const [cardValues, setCardValues] = useState({})
-
-    // let newValue = {:''}
-    // const pie = {};
+    const [title, setTitle] = useState();
+    const [start, setStart] = useState();
+    const [end, setEnd] = useState();
+    const [section, setSection] = useState('A');
 
     const getCardData = (key, Type, Question, o1, o2, o3, o4) => {
         if (Type === 'Subjective-question')
@@ -39,15 +37,16 @@ const custom = () => {
 
                     return cardElement.id !== key;
                 })))
-                setCardValues(current => {
+                // setCardValues(current => {
 
-                    const copy = { ...current };
-                    delete copy[`Card${key}`];
-                    return copy;
+                //     const copy = { ...current };
+                //     delete copy[`Card${key}`];
+                //     return copy;
 
-                })
+                // })
+                deleteQuestionDetails(key);
             }
-        } background='#e3f2fd' tip={1} key='1' getf={getCardData} />
+        } background='#e3f2fd' tip={1} key={1} getf={getCardData} />
     }]);
 
     const insertCard = () => {
@@ -69,22 +68,16 @@ const custom = () => {
 
             return cardElement.id !== key;
         })))
-        setCardValues(current => {
-
-            const copy = { ...current };
-            delete copy[`Card${key}`];
-            return copy;
-
-        })
+        deleteQuestionDetails(key)
     }
 
     return (
         <>
-            <Nav object={cardValues} />
+            <Nav object={cardValues} title={title} start={start} end={end} section={section} />
 
             <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', padding: '2vh' }}>
                 <Box sx={{
-                    height: '20vh', width: '75vw', marginLeft: '10px',
+                    minHeight: '20vh', width: '75vw', marginLeft: '10px',
                     display: 'flex', flexDirection: 'column',
                     alignItems: 'center', justifyContent: 'center', margin: '1vh',
                     background: `#e3f2fd`, backgroundSize: 'cover',
@@ -99,7 +92,32 @@ const custom = () => {
                     padding: '2vh'
                 }} >
                     {/* <Box fullWidth sx={{ background: 'url(create-exam-top-graphic.jpg)', backgroundSize: 'cover', width: '100%', height: '40%' }}></Box> */}
-                    <TextField label='Title' variant='standard' fullWidth sx={{ marginTop: '1vh', color: 'white' }} />
+                    <TextField label='Title' onChange={e => setTitle(e.target.value)} variant='standard' fullWidth sx={{ marginTop: '1vh', color: 'white' }} />
+
+
+                    <Grid sx={{ marginTop: '2vh' }} container rowSpacing={1} columnSpacing={1}>
+
+                        <Grid sx={{ display: 'flex', justifyContent: 'center', flexDirection: 'column' }} item xs={4}>
+                            <Typography fontWeight={600}>Start</Typography>
+                            <TextField onChange={e => setStart(e.target.value)} type='datetime-local' />
+                        </Grid>
+                        <Grid sx={{ display: 'flex', justifyContent: 'center', flexDirection: 'column' }} item xs={4}>
+                            <Typography fontWeight={600}>End</Typography>
+                            <TextField onChange={e => setEnd(e.target.value)} type='datetime-local' />
+
+                        </Grid >
+                        <Grid sx={{ display: 'flex', justifyContent: 'center', flexDirection: 'column' }} item xs={4}>
+                            <Typography fontWeight={600}>Class</Typography>
+                            <FormControl>
+                                <InputLabel id='hello'></InputLabel>
+                                <Select onChange={e => setSection(e.target.value)} value={section}>
+                                    <MenuItem value='A'>Class-A</MenuItem>
+                                    <MenuItem value='B'>Class-B</MenuItem>
+                                    <MenuItem value='C'>Class-C</MenuItem>
+                                </Select>
+                            </FormControl>
+                        </Grid>
+                    </Grid>
                 </Box>
 
                 {cardElement.map((i) => (
