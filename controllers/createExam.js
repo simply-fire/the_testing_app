@@ -1,7 +1,8 @@
 const schedule = require('node-schedule');
 const quest = require('../models/questionPapers');
 const { Server } = require('socket.io');
-const server = require('../index')
+const server = require('../index');
+const { connect } = require('mongoose');
 
 const io = new Server(server, {
     cors: {
@@ -10,19 +11,16 @@ const io = new Server(server, {
     }
 });
 
-var pop = {
-    "Timber": "lorem ipsum",
-    "Picolo": "Pint"
-}
+
 exports.createExam = async (req, res, next) => {
     try {
 
         // var  t = Card1;
         // console.log(req.headers);
         var testid = req.headers.testid;
-        var datetime = req.headers.scheduledatetime
+        var datetime = req.headers.scheduledatetime + '+05:30'
         var title = req.headers.title
-        var offset = req.headers.offset
+        var end = req.headers.end + '+05:30'
         // console.log(testid, datetime);
         var count = 1;
         // var i;
@@ -74,28 +72,36 @@ exports.createExam = async (req, res, next) => {
 
         res.send("Questions Loded to Database successfully").status(200);
 
-        scheduleExam(datetime, testid, title);
+        scheduleExam(datetime, testid, title, end);
 
     } catch (error) {
         throw (error)
     }
 }
 
-const scheduleExam = async (dtt, testid, title) => {
+const scheduleExam = async (dtt, testid, title, end) => {
     console.log('called this');
-    // schedule.scheduleJob(dtt, async () => {
+    schedule.scheduleJob(dtt, async () => {
 
-    console.log(dtt, testid)
-    const quesObject = await quest.find({ testId: `${testid}` });
-    quesObject.push({ title: title });
-    console.log(quesObject);
+        console.log(dtt, testid, end)
+        const quesObject = await quest.find({ testId: `${testid}` });
+        // quesObject.push({ endTime: end });
+        quesObject.push({ title: title });
+        console.log(quesObject);
 
-    io.on('connection', (socket) => {
-        console.log(`User Connected: ${socket.id}`);
+        io.on('connection', (socket) => {
+            console.log(`User Connected: ${socket.id}`);
 
-        socket.emit("rm", quesObject)
-        console.log();
-    });
+            socket.emit("rm", { quesObject, end })
 
-    // })
+            schedule.scheduleJob(end, async () => {
+                console.log('well');
+
+                socket.emit("eq", "game begins");
+                // socket.on()
+
+            })
+        });
+
+    })
 }

@@ -34,7 +34,7 @@ const server = module.exports = http.createServer(app);
 const PORT = process.env.PORT;
 
 app.use('/adminDashboard', require('./Routes/routesAdmin'));
-// app.use('/stuDashboard', require('./Routes/routesStudent'));
+app.use('/stuDashboard', require('./Routes/routesStudent'));
 app.use('/authenticate', require('./Routes/loginSignup'));
 
 

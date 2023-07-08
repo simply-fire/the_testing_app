@@ -1,10 +1,11 @@
 const express = require('express')
-const { conductExam } = require('../controllers/conductExam')
+// const { conductExam } = require('../controllers/conductExam')
+const { SubmitExam } = require('../controllers/conductExam')
 
 const router = express.Router()
 
 router
-    .route('/TakeExam')
-    .get(conductExam)
+    .route('/SubmitExam')
+    .post(SubmitExam)
 
 module.exports = router;
