@@ -3,19 +3,25 @@ import { Box } from '@mui/material';
 import CardQuestionDisplay from './CardQuestionDisplay';
 import CardAnswerDisplay from './CardAnswerDisplay';
 import { useConductQuiz } from '../../hooks/useConductQuiz';
+import { useConductQuizContext } from '../../context/ConductQuizContext';
 
 const Cards = (props) => {
 
     const [cardAns, setCardAns] = useState([]);
     const [ans, setAns] = useState('');
     const { readAnsers } = useConductQuiz()
-    var obj;
+    const { state } = useConductQuizContext()
+
     const fetchAns = (ans) => {
         setAns(ans)
     }
 
     useEffect(() => {
-        readAnsers(props.Qno, { ans, Type: props.QT, key: props.Qno })
+        if (props.QT === 'Subjective-question')
+            readAnsers(props.Qno, { ans, Type: props.QT, key: props.Qno, Question: props.Question })
+        else
+            readAnsers(props.Qno, { ans, Type: props.QT, key: props.Qno, Question: props.Question, o1: props.option1, o2: props.option2, o3: props.option3, o4: props.option4 })
+
     }, [ans])
 
     const populateCardAns = () => {

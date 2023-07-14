@@ -27,18 +27,8 @@ function ResponsiveAppBar(props) {
     const handleOpenNavMenu = (event) => {
         setAnchorElNav(event.currentTarget);
     };
-    const handleScheduleTest = () => {
-        const date = new Date()
-        console.log('By Nav', props.object)
-        axios.post('http://localhost:3000/adminDashboard/createExam', props.object, {
-            headers: {
-                testid: '14485',
-                Scheduledatetime: '2023-06-13T10:56:00+05:30',
-                title: "First Quiz"
-            }
-        })
-            .then((res) => { console.log(res) })
-            .catch((err) => { console.log(err) })
+    const handleSubmitTest = () => {
+        props.submitExam();
     };
 
     const handleCloseNavMenu = () => {
@@ -141,7 +131,7 @@ function ResponsiveAppBar(props) {
 
                     <Box sx={{ flexGrow: 0 }}>
                         {/* <Tooltip title="Open settings"> */}
-                        <IconButton onClick={handleScheduleTest} sx={{ p: 0 }}>
+                        <IconButton onClick={handleSubmitTest} sx={{ p: 0 }}>
                             {/* <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" /> */}
                             <Tooltip title='Click to Submit the quiz'><Button ><SendTwoToneIcon fontSize='large' sx={{ color: 'white' }} /></Button></Tooltip >
                         </IconButton>

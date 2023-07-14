@@ -2,6 +2,7 @@ import { createContext, useEffect, useReducer, useContext } from "react";
 
 
 export const AuthContext = createContext();
+
 export const useAuthContext = () => {
     const context = useContext(AuthContext);
 
@@ -12,6 +13,16 @@ export const useAuthContext = () => {
 };
 
 export const AuthContextProvider = ({ children }) => {
+
+    useEffect(() => {
+        const user = localStorage.getItem('jwt');
+
+        if (user) {
+            dispatch({ type: 'Login', payload: user })
+        }
+    }, [])
+
+
     const [state, dispatch] = useReducer((state, action) => {
         switch (action.type) {
             case 'Login':
@@ -25,13 +36,8 @@ export const AuthContextProvider = ({ children }) => {
         user: null
     })
 
-    useEffect(() => {
-        const user = localStorage.getItem('user');
 
-        if (user) {
-            dispatch({ type: 'Login', payload: user })
-        }
-    }, [])
+
 
     console.log('AuthContext state : ' + state);
 
@@ -42,3 +48,4 @@ export const AuthContextProvider = ({ children }) => {
     )
 
 }
+

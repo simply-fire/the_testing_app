@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMo } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import Cards from './Cards'
 import { Box, Card, IconButton, TextField, Tooltip, Typography } from '@mui/material'
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
@@ -17,21 +17,59 @@ const socket = io.connect("http://localhost:3000");
 
 const ExamCounductor = () => {
 
+    const effectRan = useRef(false)
     const quizData = JSON.parse(localStorage.getItem('quiz-data') || '[]');
     console.log(quizData);
     const [cards, setCards] = useState([]);
     const { state } = useConductQuizContext()
 
+    const submitExam = () => {
+
+
+        console.log(quizData[0].testId, localStorage.getItem('stuEmail'));
+        const id = localStorage.getItem('stuEmail')
+        const tid = quizData[0].testId
+        const token = localStorage.getItem('jwt');
+        axios.post('http://localhost:3000/stuDashboard/SubmitExam', { ansSheet: localStorage.getItem('ansSheet'), emailId: id, testId: tid }, {
+            headers: {
+                authorization: token
+            }
+
+        });
+
+        localStorage.removeItem('quiz-data');
+        localStorage.removeItem('ansSheet');
+        window.location.href = '/stuDashboard';
+        socket.emit('end-broadcast');
+
+    }
 
 
     useEffect(() => {
-        socket.on("eq", () => {
 
-            console.log(quizData[0].testId, localStorage.getItem('stuEmail'));
-            const id = localStorage.getItem('stuEmail')
-            const tid = quizData[0].testId
-            axios.post('http://localhost:3000/stuDashboard/SubmitExam', { ansSheet: localStorage.getItem('ansSheet'), emailId: id, testId: tid });
-        })
+        if (effectRan.current === false) {
+            socket.on("eq", () => {
+
+                console.log(quizData[0].testId, localStorage.getItem('stuEmail'));
+                const id = localStorage.getItem('stuEmail')
+                const tid = quizData[0].testId
+                const token = localStorage.getItem('jwt');
+                axios.post('http://localhost:3000/stuDashboard/SubmitExam', { ansSheet: localStorage.getItem('ansSheet'), emailId: id, testId: tid }, {
+                    headers: {
+                        authorization: token
+                    }
+
+                });
+
+                localStorage.removeItem('quiz-data');
+                localStorage.removeItem('ansSheet');
+                window.location.href = '/stuDashboard';
+
+            })
+
+            return () => { effectRan.current = true }
+
+        }
     }, [socket])
 
     const populateCards = () => {
@@ -60,7 +98,7 @@ const ExamCounductor = () => {
 
     return (
         <>
-            <Nav />
+            <Nav submitExam={submitExam} />
 
             <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', padding: '2vh' }}>
                 <Box sx={{

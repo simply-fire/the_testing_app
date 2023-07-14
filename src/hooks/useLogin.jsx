@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useAuthContext } from '../context/AuthContext'
 import axios from 'axios'
+import { Navigate } from 'react-router-dom'
 
 export const useLogin = () => {
     const [error, setError] = useState(null)
@@ -10,7 +11,7 @@ export const useLogin = () => {
     const login = async (cred) => {
         setIsLoading(true)
         setError(null)
-        localStorage.setItem('email', cred.email);
+        // localStorage.setItem('email', cred.email);
 
         // 
         axios.post('http://localhost:3000/authenticate/login', cred, {
@@ -24,7 +25,16 @@ export const useLogin = () => {
                     localStorage.setItem('jwt', token);
                     dispatch({ type: 'Login', payload: token })
                     setIsLoading(false)
-
+                    if (res.data.identity === 'student') {
+                        window.location.href = '/stuDashboard';
+                        localStorage.setItem('stuEmail', res.data.email)
+                        localStorage.setItem('identity', 'student')
+                    }
+                    else {
+                        window.location.href = '/adminDashboard'
+                        localStorage.setItem('email', res.data.email)
+                        localStorage.setItem('identity', 'admin')
+                    }
                 }
                 else {
                     setIsLoading(false)
@@ -37,3 +47,5 @@ export const useLogin = () => {
 
     return { login, isLoading, error }
 }
+
+

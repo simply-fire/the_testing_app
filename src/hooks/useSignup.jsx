@@ -10,7 +10,8 @@ export const useSignup = () => {
     const signup = async (cred) => {
         setIsLoading(true)
         setError(null)
-        localStorage.setItem('email', cred.email);
+        // localStorage.setItem('email', cred.email);
+
 
         // 
         axios.post('http://localhost:3000/authenticate/signup', cred, {
@@ -24,7 +25,16 @@ export const useSignup = () => {
                     localStorage.setItem('jwt', token);
                     dispatch({ type: 'Login', payload: token });
                     setIsLoading(false)
-                    // setError('Dummy Error')
+                    if (res.data.identity === 'student') {
+                        window.location.href = '/stuDashboard';
+                        localStorage.setItem('stuEmail', res.data.email)
+                        localStorage.setItem('identity', 'student')
+                    }
+                    else {
+                        window.location.href = '/adminDashboard'
+                        localStorage.setItem('email', res.data.email)
+                        localStorage.setItem('identity', 'admin')
+                    }
                 }
             })
             .catch((err) => {

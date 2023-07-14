@@ -1,22 +1,88 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import Nav from "../Navbar-admin-landing/Navbar";
 import {
     Paper, Box, Stack, Typography, Accordion,
     AccordionSummary,
-    AccordionDetails
+    AccordionDetails,
+    Table, TableBody, TableCell, TableRow, TableHead, TableContainer, Button
 } from '@mui/material';
 import Card from './Cards'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
-import { useState } from 'react'
 import axios from 'axios';
-
-
+import { useExamDataContext } from '../../context/ExamDataContest';
+import { useNavigate } from 'react-router-dom';
 
 const body = () => {
 
-    // useEffect(() => {
-    //     axios.get('http://localhost:3000/adminDashboard');
-    // }, [])
+    const { state, dispatch } = useExamDataContext();
+    const navigate = useNavigate();
+    const effectRan = useRef(false);
+
+    const clearNull = (arr) => {
+        var ret = arr.filter(ele => {
+            return ele !== null
+        })
+
+        return ret
+    }
+
+    useEffect(() => {
+        if (effectRan.current === false) {
+            axios.get('http://localhost:3000/adminDashboard/getAdata', {
+                headers: {
+                    authorization: localStorage.getItem('jwt'),
+                    adminid: localStorage.getItem('email')
+                }
+            })
+                .then((res) => {
+                    console.log('Section-A', clearNull(res.data.Qdata))
+                    localStorage.setItem('sectionA', JSON.stringify(clearNull(res.data.Qdata)))
+                })
+                .catch((err) => { console.log(err) })
+
+            axios.get('http://localhost:3000/adminDashboard/getBdata', {
+                headers: {
+                    adminid: localStorage.getItem('email'),
+                    authorization: localStorage.getItem('jwt')
+                }
+            })
+                .then((res) => {
+                    console.log('Section-B', clearNull(res.data.Qdata))
+                    localStorage.setItem('sectionB', JSON.stringify(clearNull(res.data.Qdata)))
+                })
+                .catch((err) => { console.log(err) })
+
+            axios.get('http://localhost:3000/adminDashboard/getCdata', {
+                headers: {
+                    adminid: localStorage.getItem('email'),
+                    authorization: localStorage.getItem('jwt')
+                }
+            })
+                .then((res) => {
+                    console.log('Section-C', clearNull(res.data.Qdata))
+                    localStorage.setItem('sectionC', JSON.stringify(clearNull(res.data.Qdata)));
+                })
+                .catch((err) => { console.log(err) })
+
+            return () => { effectRan.current = true }
+        }
+    }, [])
+
+    const myfunc = () => {
+        // console.log(JSON.parse(localStorage.getItem('Qdata'))[0].testId);
+        axios.get('http://localhost:3000/adminDashboard/responses', {
+            headers: {
+                authorization: localStorage.getItem('jwt'),
+                testid: JSON.parse(localStorage.getItem('Qdata'))[0].testId
+            }
+        }).then((res) => {
+            console.log(res)
+            localStorage.setItem('Response', JSON.stringify(res.data))
+        })
+            .catch((err) => console.log(err))
+    }
+
+
 
     return (
         <>
@@ -79,43 +145,139 @@ const body = () => {
                             aria-controls="panel1a-content"
                             id="panel1a-header"
                         >
-                            <Typography>Accordion 1</Typography>
+                            <Typography>CLass-A</Typography>
                         </AccordionSummary>
                         <AccordionDetails>
-                            <Typography>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-                                malesuada lacus ex, sit amet blandit leo lobortis eget.
-                            </Typography>
+                            <TableContainer component={Paper}>
+                                <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                                    <TableHead>
+                                        <TableRow sx={{ boxSizing: 'border-box', display: 'flex', justifyContent: 'center' }}
+                                        >
+                                            <TableCell sx={{ boxSizing: 'border-box', width: '25%', display: 'flex', justifyContent: 'center' }} >Serial No</TableCell>
+                                            <TableCell sx={{ boxSizing: 'border-box', width: '25%', display: 'flex', justifyContent: 'center' }} >TestID</TableCell>
+                                            <TableCell sx={{ boxSizing: 'border-box', width: '25%', display: 'flex', justifyContent: 'center' }} >Title</TableCell>
+                                            <TableCell sx={{ boxSizing: 'border-box', width: '25%', display: 'flex', justifyContent: 'center' }} >See More</TableCell>
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                        {JSON.parse(localStorage.getItem('sectionA')).map((data, index) => (
+                                            <TableRow
+                                                key={index + 1}
+                                                sx={{ boxSizing: 'border-box', display: 'flex', justifyContent: 'center' }}
+                                            >
+
+                                                <TableCell sx={{ width: '25%', display: 'flex', justifyContent: 'center' }}   >{index + 1}</TableCell>
+                                                <TableCell sx={{ width: '25%', display: 'flex', justifyContent: 'center' }} >{data[0].testId}</TableCell>
+                                                <TableCell sx={{ width: '25%', display: 'flex', justifyContent: 'center' }} >{data[0].title}</TableCell>
+                                                <TableCell sx={{ width: '25%', display: 'flex', justifyContent: 'center' }} ><Button onClick={() => {
+                                                    // await dispatch({ type: 'DataCarrier', data: data })
+                                                    localStorage.setItem('Qdata', JSON.stringify(data))
+                                                    myfunc()
+                                                    window.location.href = '/adminDashboard/Responses'
+                                                }} variant='contained'>See More</Button></TableCell>
+                                            </TableRow>
+
+                                        ))}
+
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
+
                         </AccordionDetails>
                     </Accordion>
+
+
                     <Accordion sx={{ background: '#e3f2fd', margin: '1vh' }}>
                         <AccordionSummary
                             expandIcon={<ExpandMoreIcon />}
                             aria-controls="panel1a-content"
                             id="panel1a-header"
                         >
-                            <Typography>Accordion 1</Typography>
+                            <Typography>CLass-B</Typography>
                         </AccordionSummary>
                         <AccordionDetails>
-                            <Typography>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-                                malesuada lacus ex, sit amet blandit leo lobortis eget.
-                            </Typography>
+                            <TableContainer component={Paper}>
+                                <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                                    <TableHead>
+                                        <TableRow sx={{ boxSizing: 'border-box', display: 'flex', justifyContent: 'center' }}
+                                        >
+                                            <TableCell sx={{ boxSizing: 'border-box', width: '25%', display: 'flex', justifyContent: 'center' }} >Serial No</TableCell>
+                                            <TableCell sx={{ boxSizing: 'border-box', width: '25%', display: 'flex', justifyContent: 'center' }} >TestID</TableCell>
+                                            <TableCell sx={{ boxSizing: 'border-box', width: '25%', display: 'flex', justifyContent: 'center' }} >Title</TableCell>
+                                            <TableCell sx={{ boxSizing: 'border-box', width: '25%', display: 'flex', justifyContent: 'center' }} >See More</TableCell>
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                        {JSON.parse(localStorage.getItem('sectionB')).map((data, index) => (
+                                            <TableRow
+                                                key={index + 1}
+                                                sx={{ boxSizing: 'border-box', display: 'flex', justifyContent: 'center' }}
+                                            >
+
+                                                <TableCell sx={{ width: '25%', display: 'flex', justifyContent: 'center' }}   >{index + 1}</TableCell>
+                                                <TableCell sx={{ width: '25%', display: 'flex', justifyContent: 'center' }} >{data[0].testId}</TableCell>
+                                                <TableCell sx={{ width: '25%', display: 'flex', justifyContent: 'center' }} >{data[0].title}</TableCell>
+                                                <TableCell sx={{ width: '25%', display: 'flex', justifyContent: 'center' }} ><Button onClick={() => {
+                                                    // await dispatch({ type: 'DataCarrier', data: data })
+                                                    localStorage.setItem('Qdata', JSON.stringify(data))
+                                                    myfunc()
+                                                    window.location.href = '/adminDashboard/Responses'
+                                                }} variant='contained'>See More</Button></TableCell>
+                                            </TableRow>
+
+                                        ))}
+
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
                         </AccordionDetails>
                     </Accordion>
+
+
                     <Accordion sx={{ background: '#e3f2fd', margin: '1vh' }}>
                         <AccordionSummary
                             expandIcon={<ExpandMoreIcon />}
                             aria-controls="panel1a-content"
                             id="panel1a-header"
                         >
-                            <Typography>Accordion 1</Typography>
+                            <Typography>Class-C</Typography>
                         </AccordionSummary>
                         <AccordionDetails>
-                            <Typography>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-                                malesuada lacus ex, sit amet blandit leo lobortis eget.
-                            </Typography>
+                            <TableContainer component={Paper}>
+                                <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                                    <TableHead>
+                                        <TableRow sx={{ boxSizing: 'border-box', display: 'flex', justifyContent: 'center' }}
+                                        >
+                                            <TableCell sx={{ boxSizing: 'border-box', width: '25%', display: 'flex', justifyContent: 'center' }} >Serial No</TableCell>
+                                            <TableCell sx={{ boxSizing: 'border-box', width: '25%', display: 'flex', justifyContent: 'center' }} >TestID</TableCell>
+                                            <TableCell sx={{ boxSizing: 'border-box', width: '25%', display: 'flex', justifyContent: 'center' }} >Title</TableCell>
+                                            <TableCell sx={{ boxSizing: 'border-box', width: '25%', display: 'flex', justifyContent: 'center' }} >See More</TableCell>
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                        {JSON.parse(localStorage.getItem('sectionC')).map((data, index) => (
+                                            <TableRow
+                                                key={index + 1}
+                                                sx={{ boxSizing: 'border-box', display: 'flex', justifyContent: 'center' }}
+                                            >
+
+                                                <TableCell sx={{ width: '25%', display: 'flex', justifyContent: 'center' }}   >{index + 1}</TableCell>
+                                                <TableCell sx={{ width: '25%', display: 'flex', justifyContent: 'center' }} >{data[0].testId}</TableCell>
+                                                <TableCell sx={{ width: '25%', display: 'flex', justifyContent: 'center' }} >{data[0].title}</TableCell>
+                                                <TableCell sx={{ width: '25%', display: 'flex', justifyContent: 'center' }} ><Button onClick={() => {
+                                                    // await dispatch({ type: 'DataCarrier', data: data })
+                                                    localStorage.setItem('Qdata', JSON.stringify(data))
+                                                    myfunc()
+                                                    navigate('Responses')
+                                                }} variant='contained'>See More</Button></TableCell>
+                                            </TableRow>
+
+                                        ))}
+
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
+
                         </AccordionDetails>
                     </Accordion>
 

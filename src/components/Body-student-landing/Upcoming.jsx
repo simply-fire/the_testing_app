@@ -1,12 +1,14 @@
 import { Padding } from '@mui/icons-material';
 import { Box, Button, Paper, Typography } from '@mui/material';
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import io from "socket.io-client";
 
 
 const socket = io.connect("http://localhost:3000");
 
 const Upcoming = () => {
+
+    const effectRan = useRef(false)
 
     const [obj, setObj] = useState({ mad: "chkcb" });
     const [data, setData] = useState([]);
@@ -16,13 +18,18 @@ const Upcoming = () => {
 
 
     useEffect(() => {
-        socket.on("rm", (message) => {
-            console.log(message);
-            setData(message.quesObject)
-            setTitle(message.quesObject[message.quesObject.length - 1].title)
-            console.log(message.end);
-            localStorage.setItem('end', message.end);
-        })
+        if (effectRan.current === false) {
+            socket.on("rm", (message) => {
+                console.log(message);
+                setData(message.quesObject)
+                setTitle(message.quesObject[message.quesObject.length - 1].title)
+                console.log(message.end);
+                localStorage.setItem('end', message.end);
+                // location.reload();
+            })
+
+            return () => { effectRan.current = true }
+        }
     }, [socket])
 
     return (
