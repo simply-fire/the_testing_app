@@ -46,12 +46,12 @@ exports.Login = async (req, res, next) => {
 
     try {
 
-        const { email, password } = req.body;
+        const { email, password, identity } = req.body;
 
         const User = await user.login(email, password);
         const token = createToken(User._id);
         // res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
-        res.status(200).json({ user: User._id, token });
+        res.status(200).json({ user: User._id, token, identity, email });
 
     } catch (err) {
         // const errors = handleErrors(err);
@@ -70,7 +70,7 @@ exports.Signup = async (req, res, next) => {
         const token = createToken(User._id);
         // res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
 
-        res.status(200).json({ user: User._id, token });
+        res.status(200).json({ user: User._id, token, identity, email });
 
     } catch (err) {
         console.log(err);

@@ -21,6 +21,8 @@ exports.createExam = async (req, res, next) => {
         var datetime = req.headers.scheduledatetime + '+05:30'
         var title = req.headers.title
         var end = req.headers.end + '+05:30'
+        var section = req.headers.section;
+        var adminid = req.headers.adminid;
         // console.log(testid, datetime);
         var count = 1;
         // var i;
@@ -30,10 +32,13 @@ exports.createExam = async (req, res, next) => {
             if (req.body[i].Status !== "empty" && req.body[i].Type === "Subjective-question") {
                 // console.log(req.body);
                 const subQuest = new quest({
+                    title: title,
                     testId: testid,
+                    section: section,
                     questionType: req.body[i].Type,
                     question: req.body[i].Question,
-                    questinNo: count
+                    questinNo: count,
+                    adminId: adminid
 
                 })
 
@@ -48,14 +53,17 @@ exports.createExam = async (req, res, next) => {
                 // console.log(req.body);
 
                 const objQuest = new quest({
+                    title: title,
                     testId: testid,
+                    section: section,
                     questionType: req.body[i].Type,
                     question: req.body[i].Question,
                     questinNo: count,
                     option1: req.body[i].Option1,
                     option2: req.body[i].Option2,
                     option3: req.body[i].Option3,
-                    option4: req.body[i].Option4
+                    option4: req.body[i].Option4,
+                    adminId: adminid
                 })
 
                 await objQuest.save()
@@ -88,16 +96,23 @@ const scheduleExam = async (dtt, testid, title, end) => {
         // quesObject.push({ endTime: end });
         quesObject.push({ title: title });
         console.log(quesObject);
-
+        var flag = 0;
         io.on('connection', (socket) => {
             console.log(`User Connected: ${socket.id}`);
 
-            socket.emit("rm", { quesObject, end })
+            if (flag === 0)
+                socket.emit("rm", { quesObject, end })
+
+            // socket.on('end-broadcast', () => {
+            flag = 1;
+            // })
 
             schedule.scheduleJob(end, async () => {
                 console.log('well');
-
+                socket.emit('rm', null);
                 socket.emit("eq", "game begins");
+                flag = 1;
+                io.disconnectSockets();
                 // socket.on()
 
             })
